@@ -1,38 +1,69 @@
-import Footer from '../components/Footer';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const mockUsers = [
+  
+];
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    const foundUser = mockUsers.find(
+      (user) => user.email === email && user.password === password
+    );
+    if (foundUser) {
+      alert("Login bem-sucedido!");
+      navigate("/home"); // rota a ser criada no desafio
+    } else {
+      alert("Credenciais inválidas.");
+    }
+  };
+
   return (
-    <>
-      <main className="min-h-screen bg-white flex flex-col justify-between">
-        <div className="bg-gray-200 py-10 text-center">
-          <h1 className="text-3xl font-serif text-gray-800">Área do associado</h1>
+    
+    <div className="h-screen w-screen bg-white flex justify-center items-center">
+      <div className="flex flex-col items-center w-screen">
+        <div className="flex flex-col justify-center items-center w-[750px] h-[400px] bg-gray-300 p-8 rounded">
+          <h1 className="text-3xl text-center font-bold font-serif mb-6">Login</h1>
+
+          <div className="flex flex-col w-[400px]">
+          <label className="font-serif font-semibold mb-1">Usuário ou E-mail</label>
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="bg-white text-center h-10 mb-4 rounded"
+          />
+
+          <div className="flex justify-between items-center mb-1">
+            <label className="font-serif font-semibold">Senha</label>
+            <a href="/recuperar" className="text-sm text-blue-500 font-bold hover:underline">
+              Esqueceu a senha?
+            </a>
+          </div>
+
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="bg-white text-center h-10 mb-4 rounded"
+          />
+
+          <button
+            onClick={handleLogin}
+            className="bg-gray-500 text-white font-bold rounded-md w-[150px] h-10 self-center"
+          >
+            Entrar
+          </button>
         </div>
+        <p className="mt-4">
+        Não tem conta? <a href="/register" className="font-bold">Cadastre-se</a>
+        </p>
+      </div>
 
-        <form className="max-w-xl mx-auto w-full px-6 py-10 space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Usuário ou E-mail *</label>
-            <input type="text" className="mt-1 w-full bg-gray-200 p-3 rounded-md border border-gray-300" />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Senha *</label>
-            <input type="password" className="mt-1 w-full bg-gray-200 p-3 rounded-md border border-gray-300" />
-          </div>
-
-          <div className="text-sm text-blue-600 hover:underline cursor-pointer">Esqueceu a senha?</div>
-
-          <div className="bg-gray-100 p-4 text-center border">[reCAPTCHA aqui]</div>
-
-          <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded">Login</button>
-
-          <p className="text-center text-sm">
-            Não tem conta? <Link to="/cadastro" className="text-blue-600 underline">Cadastre-se</Link>
-          </p>
-        </form>
-
-        <Footer />
-      </main>
-    </>
+      </div>
+    </div>
   );
 }
